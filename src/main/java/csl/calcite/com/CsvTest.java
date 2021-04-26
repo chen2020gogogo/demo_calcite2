@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
 import csl.calcite.com.example.csv.CsvSchemaFactory;
 import csl.calcite.com.example.csv.CsvStreamTableFactory;
+import csl.calcite.com.util.TestUtil;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.Schema;
 import org.apache.calcite.sql2rel.SqlToRelConverter;

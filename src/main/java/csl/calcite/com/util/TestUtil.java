@@ -1,4 +1,4 @@
-package csl.calcite.com;
+package csl.calcite.com.util;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
