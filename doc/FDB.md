@@ -1,0 +1,1 @@
+FDB和Driuid与JSQLParser同类型。它们无需自定义SQL语法，可以拿来即用，但缺乏自定义语法的灵活度。
