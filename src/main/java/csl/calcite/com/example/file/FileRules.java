@@ -13,20 +13,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * A JSON model of a simple Calcite schema.
  */
-{
-  "version": "1.0",
-  "defaultSchema": "SALES",
-  "schemas": [
-    {
-      "name": "SALES",
-      "type": "custom",
-      "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
-      "operand": {
-        "directory": "sales"
-      }
-    }
-  ]
+package csl.calcite.com.example.file;
+
+/** Planner rules relating to the File adapter. */
+public abstract class FileRules {
+  private FileRules() {}
+
+  /** Rule that matches a {@link org.apache.calcite.rel.core.Project} on
+   * a {@link CsvTableScan} and pushes down projects if possible. */
+  public static final CsvProjectTableScanRule PROJECT_SCAN =
+      CsvProjectTableScanRule.Config.DEFAULT.toRule();
 }

@@ -13,20 +13,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * A JSON model of a simple Calcite schema.
  */
-{
-  "version": "1.0",
-  "defaultSchema": "SALES",
-  "schemas": [
-    {
-      "name": "SALES",
-      "type": "custom",
-      "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
-      "operand": {
-        "directory": "sales"
-      }
-    }
-  ]
+package csl.calcite.com.example.file;
+
+/**
+ * Indicates that the FileReader failed.
+ */
+class FileReaderException extends Exception {
+  FileReaderException(String message) {
+    super(message);
+  }
+  FileReaderException(String message, Throwable e) {
+    super(message, e);
+  }
 }
