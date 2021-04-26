@@ -1,9 +1,11 @@
 
 - 参考链接 
-
+  - [官网](https://calcite.apache.org/)
+  - [快速入门](https://github.com/piaobeizu/calcite-book/blob/master/chapter1/section2.md)  
   - [calcite简单入门](https://blog.gavinzh.com/2019/06/29/calcite-learn/)
   - [深入浅出Calcite与SQL CBO（Cost-Based Optimizer）优化](https://www.cnblogs.com/listenfwind/p/13192259.html)
   - [calcite-demo](https://github.com/shezhiming/calcite-demo)
+  - [Apache Calcite — 入门介绍](http://www.circleblog.net/?p=1204)
 
 Apache Calcite 是一款开源的动态数据管理框架，它提供了标准的 SQL 语言、多种查询优化和连接各种数据源的能力，
 
@@ -13,10 +15,14 @@ Apache Calcite 是一款开源的动态数据管理框架，它提供了标准�
 - 包含
   - SQL解析
   - SQL校验
+  - 本身提供了许多优化规则，也支持我们自定义优化规则，来优化整个查询
+    - 自定义RelNode，
+    - 自定义Cost信息
+    - 自定义rule
   - 两种优化
     - RBO优化
     - 基于成本模型的优化，即CBO（Cost Based Optimizatio）
-  - 自定义RelNode，自定义Cost信息，自定义rule
+  
 
 - 不包括
   - 数据存储 
