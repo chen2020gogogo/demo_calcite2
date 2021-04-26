@@ -13,20 +13,31 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * A JSON model of a simple Calcite schema.
  */
+[
 {
-  "version": "1.0",
-  "defaultSchema": "SALES",
-  "schemas": [
-    {
-      "name": "SALES",
-      "type": "custom",
-      "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
-      "operand": {
-        "directory": "sales"
-      }
-    }
+  "id": "19990101",
+  "dow": "Friday",
+  "longDate": "New Years Day",
+  "title": "Tractor trouble.",
+  "characters": [ "Alice", "Bob", "Xavier" ],
+  "script": "Julian Hyde",
+  "summary": "",
+  "lines": [
+    "Bob's tractor got stuck in a field.",
+    "Alice and Xavier hatch a plan to surprise Charlie."
+  ]
+},
+{
+  "id": "19990103",
+  "dow": "Sunday",
+  "longDate": "Sunday 3rd January",
+  "title": "Charlie's surprise.",
+  "characters": [ "Alice", "Zebedee", "Charlie", "Xavier" ],
+  "script": "William Shakespeare",
+  "summary": "",
+  "lines": [
+    "Charlie is very surprised by Alice and Xavier's surprise plan."
   ]
 }
+]

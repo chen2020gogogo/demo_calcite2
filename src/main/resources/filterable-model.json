@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * A JSON model of a simple Calcite schema.
+ * A JSON model of a Calcite schema that is similar to model.json,
+ * except that it produces tables that implement FilterableTable.
+ * These tables can implement their own simple filtering.
  */
 {
   "version": "1.0",
@@ -25,7 +27,8 @@
       "type": "custom",
       "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
       "operand": {
-        "directory": "sales"
+        "directory": "sales",
+        "flavor": "FILTERABLE"
       }
     }
   ]

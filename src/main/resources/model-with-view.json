@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * A JSON model of a simple Calcite schema.
+ * A JSON model of a Calcite schema that includes a view.
  */
 {
   "version": "1.0",
@@ -26,7 +26,14 @@
       "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
       "operand": {
         "directory": "sales"
-      }
+      },
+      "tables": [
+        {
+          "name": "FEMALE_EMPS",
+          "type": "view",
+          "sql": "SELECT * FROM emps WHERE gender = 'F'"
+        }
+      ]
     }
   ]
 }

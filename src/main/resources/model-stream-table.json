@@ -13,20 +13,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * A JSON model of a simple Calcite schema.
  */
 {
   "version": "1.0",
-  "defaultSchema": "SALES",
+  "defaultSchema": "STREAM",
   "schemas": [
     {
-      "name": "SALES",
-      "type": "custom",
-      "factory": "org.apache.calcite.adapter.csv.CsvSchemaFactory",
-      "operand": {
-        "directory": "sales"
-      }
+      "name": "SS",
+      "tables": [
+        {
+          "name": "DEPTS",
+          "type": "custom",
+          "factory": "org.apache.calcite.adapter.csv.CsvStreamTableFactory",
+          "stream": {
+            "stream": true
+          },
+          "operand": {
+            "file": "sales/SDEPTS.csv",
+            "flavor": "scannable"
+          }
+        }
+      ]
     }
   ]
 }
