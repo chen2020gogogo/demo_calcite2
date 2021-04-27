@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 
 import org.apache.calcite.util.Util;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -55,13 +54,13 @@ public abstract class TestUtil {
     public static void assertEqualsVerbose(
             String expected,
             String actual) {
-        Assertions.assertEquals(expected, actual,
-                () -> "Expected:\n"
-                        + expected
-                        + "\nActual:\n"
-                        + actual
-                        + "\nActual java:\n"
-                        + toJavaString(actual) + '\n');
+//        Assertions.assertEquals(expected, actual,
+//                () -> "Expected:\n"
+//                        + expected
+//                        + "\nActual:\n"
+//                        + actual
+//                        + "\nActual java:\n"
+//                        + toJavaString(actual) + '\n');
     }
 
     /**

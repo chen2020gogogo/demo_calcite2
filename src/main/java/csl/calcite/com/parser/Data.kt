@@ -1,7 +1,7 @@
-package csl.calcite.com.parser
+package csl.calcite.com.parser;
 
 import java.io.Serializable
-import java.util.*
+
 
 @Target(AnnotationTarget.CLASS)
 annotation class DefaultConstructor
@@ -192,8 +192,8 @@ data class MergeData(val databaseName: String?,
                      val partitionVals: List<String>?) : Statement()
 
 data class CompressTableData(val databaseName: String?,
-                     val tableName: String,
-                     val partitionVals: List<String>?) : Statement()
+                             val tableName: String,
+                             val partitionVals: List<String>?) : Statement()
 
 data class CompressFileData(val path: String) : Statement()
 
@@ -227,10 +227,10 @@ data class ExportData(val databaseName: String?,
                       var cteTempTables: ArrayList<String>? = null) : Statement()
 
 data class RefreshData(val databaseName: String?,
-                     val tableName: String) : Statement()
+                       val tableName: String) : Statement()
 
 data class SetData(val key: String,
-                       val value: String?) : Statement()
+                   val value: String?) : Statement()
 
 data class UnSetData(val key: String) : Statement()
 

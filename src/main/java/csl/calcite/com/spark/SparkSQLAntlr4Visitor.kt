@@ -1,5 +1,4 @@
-package csl.calcite.com.spark;
-
+package csl.calcite.com.spark
 
 import csl.calcite.com.parser.*
 import csl.calcite.com.sparkg4.SparkSqlBaseBaseVisitor
@@ -8,9 +7,13 @@ import csl.calcite.com.util.StringUtil
 import org.antlr.v4.runtime.tree.RuleNode
 import org.apache.commons.lang3.StringUtils
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.List
 
-
+/**
+ *
+ * Created by libinsong on 2018/1/10.
+ */
 class SparkSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
 
     private var currentOptType: StatementType = StatementType.UNKOWN

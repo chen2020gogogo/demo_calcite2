@@ -1,16 +1,22 @@
 package csl.calcite.com.sparkg4;
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.Utils;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SparkSqlBaseParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -113,147 +119,137 @@ public class SparkSqlBaseParser extends Parser {
 		RULE_identifier = 131, RULE_strictIdentifier = 132, RULE_quotedIdentifier = 133, 
 		RULE_number = 134, RULE_alterColumnAction = 135, RULE_ansiNonReserved = 136, 
 		RULE_strictNonReserved = 137, RULE_nonReserved = 138;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"singleStatement", "singleExpression", "singleTableIdentifier", "singleMultipartIdentifier", 
-			"singleFunctionIdentifier", "singleDataType", "singleTableSchema", "statement", 
-			"configKey", "configValue", "unsupportedHiveNativeCommands", "createTableHeader", 
-			"replaceTableHeader", "bucketSpec", "skewSpec", "locationSpec", "commentSpec", 
-			"query", "insertInto", "partitionSpecLocation", "partitionSpec", "partitionVal", 
-			"namespace", "describeFuncName", "describeColName", "ctes", "namedQuery", 
-			"tableProvider", "createTableClauses", "tablePropertyList", "tableProperty", 
-			"tablePropertyKey", "tablePropertyValue", "constantList", "nestedConstantList", 
-			"createFileFormat", "fileFormat", "storageHandler", "resource", "dmlStatementNoWith", 
-			"queryOrganization", "multiInsertQueryBody", "queryTerm", "queryPrimary", 
-			"sortItem", "fromStatement", "fromStatementBody", "querySpecification", 
-			"transformClause", "selectClause", "setClause", "matchedClause", "notMatchedClause", 
-			"matchedAction", "notMatchedAction", "assignmentList", "assignment", 
-			"whereClause", "havingClause", "hint", "hintStatement", "fromClause", 
-			"aggregationClause", "groupingSet", "pivotClause", "pivotColumn", "pivotValue", 
-			"lateralView", "setQuantifier", "relation", "joinRelation", "joinType", 
-			"joinCriteria", "sample", "sampleMethod", "identifierList", "identifierSeq", 
-			"orderedIdentifierList", "orderedIdentifier", "identifierCommentList", 
-			"identifierComment", "relationPrimary", "inlineTable", "functionTable", 
-			"tableAlias", "rowFormat", "multipartIdentifierList", "multipartIdentifier", 
-			"tableIdentifier", "functionIdentifier", "namedExpression", "namedExpressionSeq", 
-			"partitionFieldList", "partitionField", "transform", "transformArgument", 
-			"expression", "booleanExpression", "predicate", "valueExpression", "primaryExpression", 
-			"constant", "comparisonOperator", "arithmeticOperator", "predicateOperator", 
-			"booleanValue", "interval", "errorCapturingMultiUnitsInterval", "multiUnitsInterval", 
-			"errorCapturingUnitToUnitInterval", "unitToUnitInterval", "intervalValue", 
-			"colPosition", "dataType", "qualifiedColTypeWithPositionList", "qualifiedColTypeWithPosition", 
-			"colTypeList", "colType", "complexColTypeList", "complexColType", "whenClause", 
-			"windowClause", "namedWindow", "windowSpec", "windowFrame", "frameBound", 
-			"qualifiedNameList", "functionName", "qualifiedName", "errorCapturingIdentifier", 
-			"errorCapturingIdentifierExtra", "identifier", "strictIdentifier", "quotedIdentifier", 
-			"number", "alterColumnAction", "ansiNonReserved", "strictNonReserved", 
-			"nonReserved"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"singleStatement", "singleExpression", "singleTableIdentifier", "singleMultipartIdentifier", 
+		"singleFunctionIdentifier", "singleDataType", "singleTableSchema", "statement", 
+		"configKey", "configValue", "unsupportedHiveNativeCommands", "createTableHeader", 
+		"replaceTableHeader", "bucketSpec", "skewSpec", "locationSpec", "commentSpec", 
+		"query", "insertInto", "partitionSpecLocation", "partitionSpec", "partitionVal", 
+		"namespace", "describeFuncName", "describeColName", "ctes", "namedQuery", 
+		"tableProvider", "createTableClauses", "tablePropertyList", "tableProperty", 
+		"tablePropertyKey", "tablePropertyValue", "constantList", "nestedConstantList", 
+		"createFileFormat", "fileFormat", "storageHandler", "resource", "dmlStatementNoWith", 
+		"queryOrganization", "multiInsertQueryBody", "queryTerm", "queryPrimary", 
+		"sortItem", "fromStatement", "fromStatementBody", "querySpecification", 
+		"transformClause", "selectClause", "setClause", "matchedClause", "notMatchedClause", 
+		"matchedAction", "notMatchedAction", "assignmentList", "assignment", "whereClause", 
+		"havingClause", "hint", "hintStatement", "fromClause", "aggregationClause", 
+		"groupingSet", "pivotClause", "pivotColumn", "pivotValue", "lateralView", 
+		"setQuantifier", "relation", "joinRelation", "joinType", "joinCriteria", 
+		"sample", "sampleMethod", "identifierList", "identifierSeq", "orderedIdentifierList", 
+		"orderedIdentifier", "identifierCommentList", "identifierComment", "relationPrimary", 
+		"inlineTable", "functionTable", "tableAlias", "rowFormat", "multipartIdentifierList", 
+		"multipartIdentifier", "tableIdentifier", "functionIdentifier", "namedExpression", 
+		"namedExpressionSeq", "partitionFieldList", "partitionField", "transform", 
+		"transformArgument", "expression", "booleanExpression", "predicate", "valueExpression", 
+		"primaryExpression", "constant", "comparisonOperator", "arithmeticOperator", 
+		"predicateOperator", "booleanValue", "interval", "errorCapturingMultiUnitsInterval", 
+		"multiUnitsInterval", "errorCapturingUnitToUnitInterval", "unitToUnitInterval", 
+		"intervalValue", "colPosition", "dataType", "qualifiedColTypeWithPositionList", 
+		"qualifiedColTypeWithPosition", "colTypeList", "colType", "complexColTypeList", 
+		"complexColType", "whenClause", "windowClause", "namedWindow", "windowSpec", 
+		"windowFrame", "frameBound", "qualifiedNameList", "functionName", "qualifiedName", 
+		"errorCapturingIdentifier", "errorCapturingIdentifierExtra", "identifier", 
+		"strictIdentifier", "quotedIdentifier", "number", "alterColumnAction", 
+		"ansiNonReserved", "strictNonReserved", "nonReserved"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "';'", "'('", "')'", "','", "'.'", "'/*+'", "'*/'", "'->'", "'['", 
-			"']'", "':'", "'ADD'", "'AFTER'", "'ALL'", "'ALTER'", "'ANALYZE'", "'AND'", 
-			"'ANTI'", "'ANY'", "'ARCHIVE'", "'ARRAY'", "'AS'", "'ASC'", "'AT'", "'AUTHORIZATION'", 
-			"'BETWEEN'", "'BOTH'", "'BUCKET'", "'BUCKETS'", "'BY'", "'CACHE'", "'CASCADE'", 
-			"'CASE'", "'CAST'", "'CHANGE'", "'CHECK'", "'CLEAR'", "'CLUSTER'", "'CLUSTERED'", 
-			"'CODEGEN'", "'COLLATE'", "'COLLECTION'", "'COLUMN'", "'COLUMNS'", "'COMMENT'", 
-			"'COMMIT'", "'COMPACT'", "'COMPACTIONS'", "'COMPUTE'", "'CONCATENATE'", 
-			"'CONSTRAINT'", "'CONVERT'", "'COST'", "'CREATE'", "'CROSS'", "'CUBE'", 
-			"'CURRENT'", "'CURRENT_DATE'", "'CURRENT_TIME'", "'CURRENT_TIMESTAMP'", 
-			"'CURRENT_USER'", "'DATA'", "'DATABASE'", null, "'DAY'", "'DBPROPERTIES'", 
-			"'DEFINED'", "'DELETE'", "'DELIMITED'", "'DELTA'", "'DESC'", "'DESCRIBE'", 
-			"'DETAIL'", "'DFS'", "'DIRECTORIES'", "'DIRECTORY'", "'DISTINCT'", "'DISTRIBUTE'", 
-			"'DIV'", "'DROP'", "'DRY'", "'ELSE'", "'END'", "'ESCAPE'", "'ESCAPED'", 
-			"'EXCEPT'", "'EXCHANGE'", "'EXISTS'", "'EXPLAIN'", "'EXPORT'", "'EXTENDED'", 
-			"'EXTERNAL'", "'EXTRACT'", "'FALSE'", "'FETCH'", "'FIELDS'", "'FILTER'", 
-			"'FILEFORMAT'", "'FIRST'", "'FOLLOWING'", "'FOR'", "'FOREIGN'", "'FORMAT'", 
-			"'FORMATTED'", "'FROM'", "'FULL'", "'FUNCTION'", "'FUNCTIONS'", "'GLOBAL'", 
-			"'GRANT'", "'GROUP'", "'GROUPING'", "'HAVING'", "'HOUR'", "'HOURS'", 
-			"'HISTORY'", "'IF'", "'IGNORE'", "'IMPORT'", "'IN'", "'INDEX'", "'INDEXES'", 
-			"'INNER'", "'INPATH'", "'INPUTFORMAT'", "'INSERT'", "'INTERSECT'", "'INTERVAL'", 
-			"'INTO'", "'IS'", "'ITEMS'", "'JOIN'", "'KEYS'", "'LAST'", "'LATERAL'", 
-			"'LAZY'", "'LEADING'", "'LEFT'", "'LIKE'", "'LIMIT'", "'LINES'", "'LIST'", 
-			"'LIFECYCLE'", "'LOAD'", "'LOCAL'", "'LOCATION'", "'LOCK'", "'LOCKS'", 
-			"'LOGICAL'", "'MACRO'", "'MAP'", "'MATCHED'", "'MERGE'", "'MINUTE'", 
-			"'MONTH'", "'MSCK'", "'NAMESPACE'", "'NAMESPACES'", "'NATURAL'", "'NO'", 
-			null, "'NULL'", "'NULLS'", "'OF'", "'ON'", "'ONLY'", "'OPTION'", "'OPTIONS'", 
-			"'OR'", "'ORDER'", "'OUT'", "'OUTER'", "'OUTPUTFORMAT'", "'OVER'", "'OVERLAPS'", 
-			"'OVERLAY'", "'OVERWRITE'", "'PARTITION'", "'PARTITIONED'", "'PARTITIONS'", 
-			"'PARQUET'", "'PERCENT'", "'PIVOT'", "'PLACING'", "'POSITION'", "'PRECEDING'", 
-			"'PRIMARY'", "'PRINCIPALS'", "'PROPERTIES'", "'PURGE'", "'QUERY'", "'RANGE'", 
-			"'RECORDREADER'", "'RECORDWRITER'", "'RECOVER'", "'REDUCE'", "'REFERENCES'", 
-			"'REFRESH'", "'RENAME'", "'REPAIR'", "'REPLACE'", "'RESET'", "'RESPECT'", 
-			"'RESTRICT'", "'REVOKE'", "'RETAIN'", "'RIGHT'", null, "'ROLE'", "'ROLES'", 
-			"'ROLLBACK'", "'ROLLUP'", "'ROW'", "'ROWS'", "'RUN'", "'SCHEMA'", "'SECOND'", 
-			"'SELECT'", "'SEMI'", "'SEPARATED'", "'SERDE'", "'SERDEPROPERTIES'", 
-			"'SESSION_USER'", "'SET'", "'MINUS'", "'SETS'", "'SHOW'", "'SKEWED'", 
-			"'SOME'", "'SORT'", "'SORTED'", "'START'", "'STATISTICS'", "'STORED'", 
-			"'STRATIFY'", "'STRUCT'", "'SUBSTR'", "'SUBSTRING'", "'SYNC'", "'TABLE'", 
-			"'TABLES'", "'TABLESAMPLE'", "'TBLPROPERTIES'", null, "'TERMINATED'", 
-			"'THEN'", "'TIME'", "'TO'", "'TOUCH'", "'TRAILING'", "'TRANSACTION'", 
-			"'TRANSACTIONS'", "'TRANSFORM'", "'TRIM'", "'TRUE'", "'TRUNCATE'", "'TYPE'", 
-			"'UNARCHIVE'", "'UNBOUNDED'", "'UNCACHE'", "'UNION'", "'UNIQUE'", "'UNKNOWN'", 
-			"'UNLOCK'", "'UNSET'", "'UPDATE'", "'USE'", "'USER'", "'USING'", "'VALUES'", 
-			"'VACUUM'", "'VIEW'", "'VIEWS'", "'WHEN'", "'WHERE'", "'WINDOW'", "'WITH'", 
-			"'ZONE'", "'YEAR'", "'KILL'", "'READ'", "'JOB'", "'ADDJAR'", "'COMPRESS'", 
-			"'FILE'", null, "'<=>'", "'<>'", "'!='", "'<'", null, "'>'", null, "'+'", 
-			"'-'", "'*'", "'/'", "'%'", "'~'", "'&'", "'|'", "'||'", "'^'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			"ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "ANTI", "ANY", "ARCHIVE", 
-			"ARRAY", "AS", "ASC", "AT", "AUTHORIZATION", "BETWEEN", "BOTH", "BUCKET", 
-			"BUCKETS", "BY", "CACHE", "CASCADE", "CASE", "CAST", "CHANGE", "CHECK", 
-			"CLEAR", "CLUSTER", "CLUSTERED", "CODEGEN", "COLLATE", "COLLECTION", 
-			"COLUMN", "COLUMNS", "COMMENT", "COMMIT", "COMPACT", "COMPACTIONS", "COMPUTE", 
-			"CONCATENATE", "CONSTRAINT", "CONVERT", "COST", "CREATE", "CROSS", "CUBE", 
-			"CURRENT", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", 
-			"DATA", "DATABASE", "DATABASES", "DAY", "DBPROPERTIES", "DEFINED", "DELETE", 
-			"DELIMITED", "DELTA", "DESC", "DESCRIBE", "DETAIL", "DFS", "DIRECTORIES", 
-			"DIRECTORY", "DISTINCT", "DISTRIBUTE", "DIV", "DROP", "DRY", "ELSE", 
-			"END", "ESCAPE", "ESCAPED", "EXCEPT", "EXCHANGE", "EXISTS", "EXPLAIN", 
-			"EXPORT", "EXTENDED", "EXTERNAL", "EXTRACT", "FALSE", "FETCH", "FIELDS", 
-			"FILTER", "FILEFORMAT", "FIRST", "FOLLOWING", "FOR", "FOREIGN", "FORMAT", 
-			"FORMATTED", "FROM", "FULL", "FUNCTION", "FUNCTIONS", "GLOBAL", "GRANT", 
-			"GROUP", "GROUPING", "HAVING", "HOUR", "HOURS", "HISTORY", "IF", "IGNORE", 
-			"IMPORT", "IN", "INDEX", "INDEXES", "INNER", "INPATH", "INPUTFORMAT", 
-			"INSERT", "INTERSECT", "INTERVAL", "INTO", "IS", "ITEMS", "JOIN", "KEYS", 
-			"LAST", "LATERAL", "LAZY", "LEADING", "LEFT", "LIKE", "LIMIT", "LINES", 
-			"LIST", "LIFECYCLE", "LOAD", "LOCAL", "LOCATION", "LOCK", "LOCKS", "LOGICAL", 
-			"MACRO", "MAP", "MATCHED", "MERGE", "MINUTE", "MONTH", "MSCK", "NAMESPACE", 
-			"NAMESPACES", "NATURAL", "NO", "NOT", "NULL", "NULLS", "OF", "ON", "ONLY", 
-			"OPTION", "OPTIONS", "OR", "ORDER", "OUT", "OUTER", "OUTPUTFORMAT", "OVER", 
-			"OVERLAPS", "OVERLAY", "OVERWRITE", "PARTITION", "PARTITIONED", "PARTITIONS", 
-			"PARQUET", "PERCENTLIT", "PIVOT", "PLACING", "POSITION", "PRECEDING", 
-			"PRIMARY", "PRINCIPALS", "PROPERTIES", "PURGE", "QUERY", "RANGE", "RECORDREADER", 
-			"RECORDWRITER", "RECOVER", "REDUCE", "REFERENCES", "REFRESH", "RENAME", 
-			"REPAIR", "REPLACE", "RESET", "RESPECT", "RESTRICT", "REVOKE", "RETAIN", 
-			"RIGHT", "RLIKE", "ROLE", "ROLES", "ROLLBACK", "ROLLUP", "ROW", "ROWS", 
-			"RUN", "SCHEMA", "SECOND", "SELECT", "SEMI", "SEPARATED", "SERDE", "SERDEPROPERTIES", 
-			"SESSION_USER", "SET", "SETMINUS", "SETS", "SHOW", "SKEWED", "SOME", 
-			"SORT", "SORTED", "START", "STATISTICS", "STORED", "STRATIFY", "STRUCT", 
-			"SUBSTR", "SUBSTRING", "SYNC", "TABLE", "TABLES", "TABLESAMPLE", "TBLPROPERTIES", 
-			"TEMPORARY", "TERMINATED", "THEN", "TIME", "TO", "TOUCH", "TRAILING", 
-			"TRANSACTION", "TRANSACTIONS", "TRANSFORM", "TRIM", "TRUE", "TRUNCATE", 
-			"TYPE", "UNARCHIVE", "UNBOUNDED", "UNCACHE", "UNION", "UNIQUE", "UNKNOWN", 
-			"UNLOCK", "UNSET", "UPDATE", "USE", "USER", "USING", "VALUES", "VACUUM", 
-			"VIEW", "VIEWS", "WHEN", "WHERE", "WINDOW", "WITH", "ZONE", "YEAR", "KILL", 
-			"READ", "JOB", "ADDJAR", "COMPRESS", "FILE", "EQ", "NSEQ", "NEQ", "NEQJ", 
-			"LT", "LTE", "GT", "GTE", "PLUS", "MINUS", "ASTERISK", "SLASH", "PERCENT", 
-			"TILDE", "AMPERSAND", "PIPE", "CONCAT_PIPE", "HAT", "STRING", "BIGINT_LITERAL", 
-			"SMALLINT_LITERAL", "TINYINT_LITERAL", "INTEGER_VALUE", "EXPONENT_VALUE", 
-			"DECIMAL_VALUE", "FLOAT_LITERAL", "DOUBLE_LITERAL", "BIGDECIMAL_LITERAL", 
-			"IDENTIFIER", "BACKQUOTED_IDENTIFIER", "SIMPLE_COMMENT", "BRACKETED_COMMENT", 
-			"WS", "UNRECOGNIZED"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "';'", "'('", "')'", "','", "'.'", "'/*+'", "'*/'", "'->'", "'['", 
+		"']'", "':'", "'ADD'", "'AFTER'", "'ALL'", "'ALTER'", "'ANALYZE'", "'AND'", 
+		"'ANTI'", "'ANY'", "'ARCHIVE'", "'ARRAY'", "'AS'", "'ASC'", "'AT'", "'AUTHORIZATION'", 
+		"'BETWEEN'", "'BOTH'", "'BUCKET'", "'BUCKETS'", "'BY'", "'CACHE'", "'CASCADE'", 
+		"'CASE'", "'CAST'", "'CHANGE'", "'CHECK'", "'CLEAR'", "'CLUSTER'", "'CLUSTERED'", 
+		"'CODEGEN'", "'COLLATE'", "'COLLECTION'", "'COLUMN'", "'COLUMNS'", "'COMMENT'", 
+		"'COMMIT'", "'COMPACT'", "'COMPACTIONS'", "'COMPUTE'", "'CONCATENATE'", 
+		"'CONSTRAINT'", "'CONVERT'", "'COST'", "'CREATE'", "'CROSS'", "'CUBE'", 
+		"'CURRENT'", "'CURRENT_DATE'", "'CURRENT_TIME'", "'CURRENT_TIMESTAMP'", 
+		"'CURRENT_USER'", "'DATA'", "'DATABASE'", null, "'DAY'", "'DBPROPERTIES'", 
+		"'DEFINED'", "'DELETE'", "'DELIMITED'", "'DELTA'", "'DESC'", "'DESCRIBE'", 
+		"'DETAIL'", "'DFS'", "'DIRECTORIES'", "'DIRECTORY'", "'DISTINCT'", "'DISTRIBUTE'", 
+		"'DIV'", "'DROP'", "'DRY'", "'ELSE'", "'END'", "'ESCAPE'", "'ESCAPED'", 
+		"'EXCEPT'", "'EXCHANGE'", "'EXISTS'", "'EXPLAIN'", "'EXPORT'", "'EXTENDED'", 
+		"'EXTERNAL'", "'EXTRACT'", "'FALSE'", "'FETCH'", "'FIELDS'", "'FILTER'", 
+		"'FILEFORMAT'", "'FIRST'", "'FOLLOWING'", "'FOR'", "'FOREIGN'", "'FORMAT'", 
+		"'FORMATTED'", "'FROM'", "'FULL'", "'FUNCTION'", "'FUNCTIONS'", "'GLOBAL'", 
+		"'GRANT'", "'GROUP'", "'GROUPING'", "'HAVING'", "'HOUR'", "'HOURS'", "'HISTORY'", 
+		"'IF'", "'IGNORE'", "'IMPORT'", "'IN'", "'INDEX'", "'INDEXES'", "'INNER'", 
+		"'INPATH'", "'INPUTFORMAT'", "'INSERT'", "'INTERSECT'", "'INTERVAL'", 
+		"'INTO'", "'IS'", "'ITEMS'", "'JOIN'", "'KEYS'", "'LAST'", "'LATERAL'", 
+		"'LAZY'", "'LEADING'", "'LEFT'", "'LIKE'", "'LIMIT'", "'LINES'", "'LIST'", 
+		"'LIFECYCLE'", "'LOAD'", "'LOCAL'", "'LOCATION'", "'LOCK'", "'LOCKS'", 
+		"'LOGICAL'", "'MACRO'", "'MAP'", "'MATCHED'", "'MERGE'", "'MINUTE'", "'MONTH'", 
+		"'MSCK'", "'NAMESPACE'", "'NAMESPACES'", "'NATURAL'", "'NO'", null, "'NULL'", 
+		"'NULLS'", "'OF'", "'ON'", "'ONLY'", "'OPTION'", "'OPTIONS'", "'OR'", 
+		"'ORDER'", "'OUT'", "'OUTER'", "'OUTPUTFORMAT'", "'OVER'", "'OVERLAPS'", 
+		"'OVERLAY'", "'OVERWRITE'", "'PARTITION'", "'PARTITIONED'", "'PARTITIONS'", 
+		"'PARQUET'", "'PERCENT'", "'PIVOT'", "'PLACING'", "'POSITION'", "'PRECEDING'", 
+		"'PRIMARY'", "'PRINCIPALS'", "'PROPERTIES'", "'PURGE'", "'QUERY'", "'RANGE'", 
+		"'RECORDREADER'", "'RECORDWRITER'", "'RECOVER'", "'REDUCE'", "'REFERENCES'", 
+		"'REFRESH'", "'RENAME'", "'REPAIR'", "'REPLACE'", "'RESET'", "'RESPECT'", 
+		"'RESTRICT'", "'REVOKE'", "'RETAIN'", "'RIGHT'", null, "'ROLE'", "'ROLES'", 
+		"'ROLLBACK'", "'ROLLUP'", "'ROW'", "'ROWS'", "'RUN'", "'SCHEMA'", "'SECOND'", 
+		"'SELECT'", "'SEMI'", "'SEPARATED'", "'SERDE'", "'SERDEPROPERTIES'", "'SESSION_USER'", 
+		"'SET'", "'MINUS'", "'SETS'", "'SHOW'", "'SKEWED'", "'SOME'", "'SORT'", 
+		"'SORTED'", "'START'", "'STATISTICS'", "'STORED'", "'STRATIFY'", "'STRUCT'", 
+		"'SUBSTR'", "'SUBSTRING'", "'SYNC'", "'TABLE'", "'TABLES'", "'TABLESAMPLE'", 
+		"'TBLPROPERTIES'", null, "'TERMINATED'", "'THEN'", "'TIME'", "'TO'", "'TOUCH'", 
+		"'TRAILING'", "'TRANSACTION'", "'TRANSACTIONS'", "'TRANSFORM'", "'TRIM'", 
+		"'TRUE'", "'TRUNCATE'", "'TYPE'", "'UNARCHIVE'", "'UNBOUNDED'", "'UNCACHE'", 
+		"'UNION'", "'UNIQUE'", "'UNKNOWN'", "'UNLOCK'", "'UNSET'", "'UPDATE'", 
+		"'USE'", "'USER'", "'USING'", "'VALUES'", "'VACUUM'", "'VIEW'", "'VIEWS'", 
+		"'WHEN'", "'WHERE'", "'WINDOW'", "'WITH'", "'ZONE'", "'YEAR'", "'KILL'", 
+		"'READ'", "'JOB'", "'ADDJAR'", "'COMPRESS'", "'FILE'", null, "'<=>'", 
+		"'<>'", "'!='", "'<'", null, "'>'", null, "'+'", "'-'", "'*'", "'/'", 
+		"'%'", "'~'", "'&'", "'|'", "'||'", "'^'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		"ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "ANTI", "ANY", "ARCHIVE", 
+		"ARRAY", "AS", "ASC", "AT", "AUTHORIZATION", "BETWEEN", "BOTH", "BUCKET", 
+		"BUCKETS", "BY", "CACHE", "CASCADE", "CASE", "CAST", "CHANGE", "CHECK", 
+		"CLEAR", "CLUSTER", "CLUSTERED", "CODEGEN", "COLLATE", "COLLECTION", "COLUMN", 
+		"COLUMNS", "COMMENT", "COMMIT", "COMPACT", "COMPACTIONS", "COMPUTE", "CONCATENATE", 
+		"CONSTRAINT", "CONVERT", "COST", "CREATE", "CROSS", "CUBE", "CURRENT", 
+		"CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "DATA", 
+		"DATABASE", "DATABASES", "DAY", "DBPROPERTIES", "DEFINED", "DELETE", "DELIMITED", 
+		"DELTA", "DESC", "DESCRIBE", "DETAIL", "DFS", "DIRECTORIES", "DIRECTORY", 
+		"DISTINCT", "DISTRIBUTE", "DIV", "DROP", "DRY", "ELSE", "END", "ESCAPE", 
+		"ESCAPED", "EXCEPT", "EXCHANGE", "EXISTS", "EXPLAIN", "EXPORT", "EXTENDED", 
+		"EXTERNAL", "EXTRACT", "FALSE", "FETCH", "FIELDS", "FILTER", "FILEFORMAT", 
+		"FIRST", "FOLLOWING", "FOR", "FOREIGN", "FORMAT", "FORMATTED", "FROM", 
+		"FULL", "FUNCTION", "FUNCTIONS", "GLOBAL", "GRANT", "GROUP", "GROUPING", 
+		"HAVING", "HOUR", "HOURS", "HISTORY", "IF", "IGNORE", "IMPORT", "IN", 
+		"INDEX", "INDEXES", "INNER", "INPATH", "INPUTFORMAT", "INSERT", "INTERSECT", 
+		"INTERVAL", "INTO", "IS", "ITEMS", "JOIN", "KEYS", "LAST", "LATERAL", 
+		"LAZY", "LEADING", "LEFT", "LIKE", "LIMIT", "LINES", "LIST", "LIFECYCLE", 
+		"LOAD", "LOCAL", "LOCATION", "LOCK", "LOCKS", "LOGICAL", "MACRO", "MAP", 
+		"MATCHED", "MERGE", "MINUTE", "MONTH", "MSCK", "NAMESPACE", "NAMESPACES", 
+		"NATURAL", "NO", "NOT", "NULL", "NULLS", "OF", "ON", "ONLY", "OPTION", 
+		"OPTIONS", "OR", "ORDER", "OUT", "OUTER", "OUTPUTFORMAT", "OVER", "OVERLAPS", 
+		"OVERLAY", "OVERWRITE", "PARTITION", "PARTITIONED", "PARTITIONS", "PARQUET", 
+		"PERCENTLIT", "PIVOT", "PLACING", "POSITION", "PRECEDING", "PRIMARY", 
+		"PRINCIPALS", "PROPERTIES", "PURGE", "QUERY", "RANGE", "RECORDREADER", 
+		"RECORDWRITER", "RECOVER", "REDUCE", "REFERENCES", "REFRESH", "RENAME", 
+		"REPAIR", "REPLACE", "RESET", "RESPECT", "RESTRICT", "REVOKE", "RETAIN", 
+		"RIGHT", "RLIKE", "ROLE", "ROLES", "ROLLBACK", "ROLLUP", "ROW", "ROWS", 
+		"RUN", "SCHEMA", "SECOND", "SELECT", "SEMI", "SEPARATED", "SERDE", "SERDEPROPERTIES", 
+		"SESSION_USER", "SET", "SETMINUS", "SETS", "SHOW", "SKEWED", "SOME", "SORT", 
+		"SORTED", "START", "STATISTICS", "STORED", "STRATIFY", "STRUCT", "SUBSTR", 
+		"SUBSTRING", "SYNC", "TABLE", "TABLES", "TABLESAMPLE", "TBLPROPERTIES", 
+		"TEMPORARY", "TERMINATED", "THEN", "TIME", "TO", "TOUCH", "TRAILING", 
+		"TRANSACTION", "TRANSACTIONS", "TRANSFORM", "TRIM", "TRUE", "TRUNCATE", 
+		"TYPE", "UNARCHIVE", "UNBOUNDED", "UNCACHE", "UNION", "UNIQUE", "UNKNOWN", 
+		"UNLOCK", "UNSET", "UPDATE", "USE", "USER", "USING", "VALUES", "VACUUM", 
+		"VIEW", "VIEWS", "WHEN", "WHERE", "WINDOW", "WITH", "ZONE", "YEAR", "KILL", 
+		"READ", "JOB", "ADDJAR", "COMPRESS", "FILE", "EQ", "NSEQ", "NEQ", "NEQJ", 
+		"LT", "LTE", "GT", "GTE", "PLUS", "MINUS", "ASTERISK", "SLASH", "PERCENT", 
+		"TILDE", "AMPERSAND", "PIPE", "CONCAT_PIPE", "HAT", "STRING", "BIGINT_LITERAL", 
+		"SMALLINT_LITERAL", "TINYINT_LITERAL", "INTEGER_VALUE", "EXPONENT_VALUE", 
+		"DECIMAL_VALUE", "FLOAT_LITERAL", "DOUBLE_LITERAL", "BIGDECIMAL_LITERAL", 
+		"IDENTIFIER", "BACKQUOTED_IDENTIFIER", "SIMPLE_COMMENT", "BRACKETED_COMMENT", 
+		"WS", "UNRECOGNIZED"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -321,7 +317,6 @@ public class SparkSqlBaseParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class SingleStatementContext extends ParserRuleContext {
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
@@ -5088,7 +5083,7 @@ public class SparkSqlBaseParser extends Parser {
 					setState(911);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,89,_ctx);
-					while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 						if ( _alt==1+1 ) {
 							{
 							{
@@ -5332,7 +5327,7 @@ public class SparkSqlBaseParser extends Parser {
 					setState(977);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,101,_ctx);
-					while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 						if ( _alt==1+1 ) {
 							{
 							{
@@ -5361,7 +5356,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(987);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,103,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -5426,7 +5421,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1004);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,104,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -5473,7 +5468,7 @@ public class SparkSqlBaseParser extends Parser {
 					setState(1018);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,105,_ctx);
-					while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 						if ( _alt==1+1 ) {
 							{
 							{
@@ -5500,7 +5495,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1027);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,107,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -5528,7 +5523,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1036);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,108,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -5562,7 +5557,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1045);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,109,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -5891,7 +5886,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1145);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,124,_ctx);
-				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=1 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -6663,9 +6658,6 @@ public class SparkSqlBaseParser extends Parser {
 	}
 
 	public static class CreateTableHeaderContext extends ParserRuleContext {
-		public CreateTableHeaderContext createStreamTable() {
-			return getRuleContext(CreateTableHeaderContext.class,0);
-		}
 		public TerminalNode CREATE() { return getToken(SparkSqlBaseParser.CREATE, 0); }
 		public TerminalNode TABLE() { return getToken(SparkSqlBaseParser.TABLE, 0); }
 		public MultipartIdentifierContext multipartIdentifier() {
@@ -9318,7 +9310,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1651);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,182,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -9436,7 +9428,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1669);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,185,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -9470,7 +9462,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1681);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,187,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -9504,7 +9496,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1693);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,189,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -9538,7 +9530,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1705);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,191,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -9746,7 +9738,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(1749);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,200,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -10194,7 +10186,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1775); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,204,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -10290,7 +10282,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1787);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,206,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -10492,7 +10484,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(1820);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,215,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -10816,7 +10808,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(1883);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,229,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -11478,7 +11470,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(1968);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,238,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -11658,7 +11650,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(1994);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,241,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -11676,7 +11668,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2000);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,242,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -11776,7 +11768,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(2013);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,244,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -12350,7 +12342,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(2133);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,261,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -12475,7 +12467,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2144);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,263,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -13191,7 +13183,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2234);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,279,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -13755,7 +13747,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2299);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,288,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -14297,7 +14289,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2392);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,303,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -14572,7 +14564,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2424);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,309,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -15152,7 +15144,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2485);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,318,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -15728,7 +15720,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2599);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,335,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -17064,7 +17056,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2802);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,358,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -17319,7 +17311,7 @@ public class SparkSqlBaseParser extends Parser {
 					setState(2815); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,359,_ctx);
-				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
@@ -17744,7 +17736,7 @@ public class SparkSqlBaseParser extends Parser {
 				setState(2841); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,363,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -18056,14 +18048,12 @@ public class SparkSqlBaseParser extends Parser {
 	}
 	public static class ComplexDataTypeContext extends DataTypeContext {
 		public Token complex;
-		public TerminalNode LT() { return getToken(SparkSqlBaseParser.LT, 0); }
 		public List<DataTypeContext> dataType() {
 			return getRuleContexts(DataTypeContext.class);
 		}
 		public DataTypeContext dataType(int i) {
 			return getRuleContext(DataTypeContext.class,i);
 		}
-		public TerminalNode GT() { return getToken(SparkSqlBaseParser.GT, 0); }
 		public TerminalNode ARRAY() { return getToken(SparkSqlBaseParser.ARRAY, 0); }
 		public TerminalNode MAP() { return getToken(SparkSqlBaseParser.MAP, 0); }
 		public TerminalNode STRUCT() { return getToken(SparkSqlBaseParser.STRUCT, 0); }
@@ -18432,7 +18422,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2926);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,377,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -18778,7 +18768,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(2967);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,383,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -19488,7 +19478,7 @@ public class SparkSqlBaseParser extends Parser {
 			setState(3068);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,396,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -19652,7 +19642,7 @@ public class SparkSqlBaseParser extends Parser {
 					setState(3078); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,397,_ctx);
-				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			case 2:

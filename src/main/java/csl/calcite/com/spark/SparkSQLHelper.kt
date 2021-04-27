@@ -1,4 +1,4 @@
-package csl.calcite.com.spark;
+package csl.calcite.com.spark
 
 import csl.calcite.com.parser.*
 import csl.calcite.com.parser.StatementType.*
@@ -15,6 +15,10 @@ import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.apache.commons.lang3.StringUtils
 import java.lang.IllegalArgumentException
 
+/**
+ *
+ * Created by libinsong on 2018/1/10.
+ */
 object SparkSQLHelper {
 
     @JvmStatic fun checkSupportedSQL(statementType: StatementType): Boolean {
@@ -66,8 +70,8 @@ object SparkSQLHelper {
             SHOW_FUNCTIONS,
             DESC_FUNCTION,
 
-            //LIST_JARS,
-            //DELETE_JAR,
+                //LIST_JARS,
+                //DELETE_JAR,
 
             KILL,
             STATUS,

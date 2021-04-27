@@ -1,9 +1,9 @@
-package csl.calcite.com.spark;
+package csl.calcite.com.spark
 
 import csl.calcite.com.parser.StatementData
 import csl.calcite.com.parser.StatementType
-import csl.calcite.com.sparkg4.SparkSqlBaseLexer
-import csl.calcite.com.sparkg4.SparkSqlBaseParser
+import csl.calcite.com.sparkg4.SparkStreamSqlLexer
+import csl.calcite.com.sparkg4.SparkStreamSqlParser
 import csl.calcite.com.util.ParseErrorListener
 import csl.calcite.com.util.ParseException
 import csl.calcite.com.util.PostProcessor
@@ -30,12 +30,12 @@ object SparkStreamSQLHelper {
         val trimCmd = StringUtils.trim(command)
 
         val charStream = UpperCaseCharStream(CharStreams.fromString(trimCmd))
-        val lexer = SparkSqlBaseLexer(charStream)
+        val lexer = SparkStreamSqlLexer(charStream)
         lexer.removeErrorListeners()
         lexer.addErrorListener(ParseErrorListener())
 
         val tokenStream = CommonTokenStream(lexer)
-        val parser = SparkSqlBaseParser(tokenStream)
+        val parser = SparkStreamSqlParser(tokenStream)
         parser.addParseListener(PostProcessor())
         parser.removeErrorListeners()
         parser.addErrorListener(ParseErrorListener())
@@ -46,7 +46,7 @@ object SparkStreamSQLHelper {
         try {
             try {
                 // first, try parsing with potentially faster SLL mode
-                sqlVisitor.visit(parser.singleStatement())
+                sqlVisitor.visit(parser.sqlStatements())
                 return sqlVisitor.getTableDatas()
             }
             catch (e: ParseCancellationException) {
@@ -55,7 +55,7 @@ object SparkStreamSQLHelper {
 
                 // Try Again.
                 parser.interpreter.predictionMode = PredictionMode.LL
-                sqlVisitor.visit(parser.singleStatement())
+                sqlVisitor.visit(parser.sqlStatements())
                 return sqlVisitor.getTableDatas()
             }
         } catch (e: ParseException) {
