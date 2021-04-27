@@ -3,7 +3,9 @@ package csl.calcite.com.demo;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ *  参考 https://blog.csdn.net/zjq_1314520/article/details/65938532
+ */
 public class MyVisitor extends CalExprBaseVisitor<Integer>{
 
     Map<String,Integer> map=new HashMap<String,Integer>();

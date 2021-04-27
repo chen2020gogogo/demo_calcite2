@@ -1,12 +1,10 @@
 package csl.calcite.com.demo;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 public class Main {
-    public static void run(String expr) throws Exception{
+    public static void run(String expr) throws Exception {
 
         //对每一个输入的字符串，构造一个 ANTLRStringStream 流 in
         ANTLRInputStream in = new ANTLRInputStream(expr);
@@ -21,15 +19,15 @@ public class Main {
         CalExprParser parser = new CalExprParser(tokens);
 
         //最终调用语法分析器的规则 prog，完成对表达式的验证
-       CalExprParser.ProgContext tree= parser.prog();
+        CalExprParser.ProgContext tree = parser.prog();
         MyVisitor visitor = new MyVisitor();
-        Integer result=visitor.visit(tree);
-        System.out.println("result:"+result);
+        Integer result = visitor.visit(tree);
+        System.out.println("result:" + result);
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
-        String[] testStr={
+        String[] testStr = {
                 "a=1",
                 "b=1",
                 "c=2+1",
@@ -38,7 +36,7 @@ public class Main {
                 "a=3\nb=4\nf=a+(b*3)"
         };
 
-        for (String s:testStr){
+        for (String s : testStr) {
             run(s);
         }
     }

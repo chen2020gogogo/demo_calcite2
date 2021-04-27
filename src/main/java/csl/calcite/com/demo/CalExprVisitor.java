@@ -1,4 +1,4 @@
-// Generated from /Users/shenglongchen/netease_gitlab/demo_calcite2/testg4/CalExpr.g4 by ANTLR 4.9.1
+
 package csl.calcite.com.demo;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
