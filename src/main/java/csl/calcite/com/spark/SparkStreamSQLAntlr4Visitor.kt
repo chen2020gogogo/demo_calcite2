@@ -1,8 +1,13 @@
 package csl.calcite.com.spark
 
 import csl.calcite.com.parser.StatementData
+import csl.calcite.com.parser.StatementType
+import csl.calcite.com.parser.StreamColumn
+import csl.calcite.com.parser.StreamStreamTable
 import csl.calcite.com.sparkg4.SparkSqlBaseBaseVisitor
+import csl.calcite.com.sparkg4.SparkSqlBaseParser
 import csl.calcite.com.sparkg4.SparkSqlBaseParser.*
+import csl.calcite.com.util.StringUtil
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor
 
 class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
@@ -21,7 +26,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleStatement(ctx: SingleStatementContext): StatementData {
+    override fun visitSingleStatement(ctx: SparkSqlBaseParser.SingleStatementContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -32,7 +37,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleExpression(ctx: SingleExpressionContext): StatementData {
+    override fun visitSingleExpression(ctx: SparkSqlBaseParser.SingleExpressionContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -43,7 +48,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleTableIdentifier(ctx: SingleTableIdentifierContext): StatementData {
+    override fun visitSingleTableIdentifier(ctx: SparkSqlBaseParser.SingleTableIdentifierContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -54,7 +59,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleMultipartIdentifier(ctx: SingleMultipartIdentifierContext): StatementData {
+    override fun visitSingleMultipartIdentifier(ctx: SparkSqlBaseParser.SingleMultipartIdentifierContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -65,7 +70,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleFunctionIdentifier(ctx: SingleFunctionIdentifierContext): StatementData {
+    override fun visitSingleFunctionIdentifier(ctx: SparkSqlBaseParser.SingleFunctionIdentifierContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -76,7 +81,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleDataType(ctx: SingleDataTypeContext): StatementData {
+    override fun visitSingleDataType(ctx: SparkSqlBaseParser.SingleDataTypeContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -87,7 +92,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSingleTableSchema(ctx: SingleTableSchemaContext): StatementData {
+    override fun visitSingleTableSchema(ctx: SparkSqlBaseParser.SingleTableSchemaContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -98,7 +103,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitStatementDefault(ctx: StatementDefaultContext): StatementData {
+    override fun visitStatementDefault(ctx: SparkSqlBaseParser.StatementDefaultContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -109,7 +114,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDmlStatement(ctx: DmlStatementContext): StatementData {
+    override fun visitDmlStatement(ctx: SparkSqlBaseParser.DmlStatementContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -120,7 +125,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitUse(ctx: UseContext): StatementData {
+    override fun visitUse(ctx: SparkSqlBaseParser.UseContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -131,7 +136,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateNamespace(ctx: CreateNamespaceContext): StatementData {
+    override fun visitCreateNamespace(ctx: SparkSqlBaseParser.CreateNamespaceContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -142,7 +147,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSetNamespaceProperties(ctx: SetNamespacePropertiesContext): StatementData {
+    override fun visitSetNamespaceProperties(ctx: SparkSqlBaseParser.SetNamespacePropertiesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -153,7 +158,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSetNamespaceLocation(ctx: SetNamespaceLocationContext): StatementData {
+    override fun visitSetNamespaceLocation(ctx: SparkSqlBaseParser.SetNamespaceLocationContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -164,7 +169,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropNamespace(ctx: DropNamespaceContext): StatementData {
+    override fun visitDropNamespace(ctx: SparkSqlBaseParser.DropNamespaceContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -175,7 +180,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowNamespaces(ctx: ShowNamespacesContext): StatementData {
+    override fun visitShowNamespaces(ctx: SparkSqlBaseParser.ShowNamespacesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -186,7 +191,32 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateTable(ctx: CreateTableContext): StatementData {
+    override fun visitCreateTable(ctx: SparkSqlBaseParser.CreateTableContext): StatementData {
+//        val tableName = ctx.tableName.table.ID().text
+//        var columns: List<StreamColumn> = ctx.columns.children
+//                .filter {
+//                    it is SparkSqlBaseParser.ColTypeContext }.map {
+//                    item ->
+//                    val column = item as SparkSqlBaseParser.ColTypeContext
+//                    val colName = column.ID().text
+//                    var dataType = column.dataType().text
+//                    val colComment = if (column.comment != null) StringUtil.cleanQuote(column.comment.text) else null
+//                    val jsonPath = if (column.jsonPath != null) StringUtil.cleanQuote(column.jsonPath.text) else null
+//                    val pattern = if (column.pattern != null) StringUtil.cleanQuote(column.pattern.text) else null
+//                    StreamColumn(colName, dataType, colComment, jsonPath, pattern)
+//                }
+//        var properties = HashMap<String, String>()
+//        if(ctx.tableProps != null) {
+//            ctx.tableProps.children.filter { it is SparkSqlBaseParser.TablePropertyContext }.map { item ->
+//                val property = item as SparkSqlBaseParser.TablePropertyContext
+//                val key = StringUtil.cleanQuote(property.key.text)
+//                var value = StringUtil.cleanQuote(property.value.text)
+//                properties.put(key, value)
+//            }
+//        }
+//
+//        val table = StreamStreamTable(tableName, columns, properties)
+//        return StatementData(StatementType.CREATE_TABLE, table)
         return visitChildren(ctx)
     }
 
@@ -197,7 +227,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateTableLike(ctx: CreateTableLikeContext): StatementData {
+    override fun visitCreateTableLike(ctx: SparkSqlBaseParser.CreateTableLikeContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -208,7 +238,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitReplaceTable(ctx: ReplaceTableContext): StatementData {
+    override fun visitReplaceTable(ctx: SparkSqlBaseParser.ReplaceTableContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -219,7 +249,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAnalyze(ctx: AnalyzeContext): StatementData {
+    override fun visitAnalyze(ctx: SparkSqlBaseParser.AnalyzeContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -230,7 +260,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAnalyzeTables(ctx: AnalyzeTablesContext): StatementData {
+    override fun visitAnalyzeTables(ctx: SparkSqlBaseParser.AnalyzeTablesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -241,7 +271,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAddTableColumns(ctx: AddTableColumnsContext): StatementData {
+    override fun visitAddTableColumns(ctx: SparkSqlBaseParser.AddTableColumnsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -252,7 +282,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitRenameTableColumn(ctx: RenameTableColumnContext): StatementData {
+    override fun visitRenameTableColumn(ctx: SparkSqlBaseParser.RenameTableColumnContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -263,7 +293,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropTableColumns(ctx: DropTableColumnsContext): StatementData {
+    override fun visitDropTableColumns(ctx: SparkSqlBaseParser.DropTableColumnsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -274,7 +304,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitRenameTable(ctx: RenameTableContext): StatementData {
+    override fun visitRenameTable(ctx: SparkSqlBaseParser.RenameTableContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -285,7 +315,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSetTableProperties(ctx: SetTablePropertiesContext): StatementData {
+    override fun visitSetTableProperties(ctx: SparkSqlBaseParser.SetTablePropertiesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -296,7 +326,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitUnsetTableProperties(ctx: UnsetTablePropertiesContext): StatementData {
+    override fun visitUnsetTableProperties(ctx: SparkSqlBaseParser.UnsetTablePropertiesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -307,7 +337,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAlterTableAlterColumn(ctx: AlterTableAlterColumnContext): StatementData {
+    override fun visitAlterTableAlterColumn(ctx: SparkSqlBaseParser.AlterTableAlterColumnContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -318,7 +348,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitHiveChangeColumn(ctx: HiveChangeColumnContext): StatementData {
+    override fun visitHiveChangeColumn(ctx: SparkSqlBaseParser.HiveChangeColumnContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -329,7 +359,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitHiveReplaceColumns(ctx: HiveReplaceColumnsContext): StatementData {
+    override fun visitHiveReplaceColumns(ctx: SparkSqlBaseParser.HiveReplaceColumnsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -340,7 +370,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSetTableSerDe(ctx: SetTableSerDeContext): StatementData {
+    override fun visitSetTableSerDe(ctx: SparkSqlBaseParser.SetTableSerDeContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -351,7 +381,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAddTablePartition(ctx: AddTablePartitionContext): StatementData {
+    override fun visitAddTablePartition(ctx: SparkSqlBaseParser.AddTablePartitionContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -362,7 +392,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitRenameTablePartition(ctx: RenameTablePartitionContext): StatementData {
+    override fun visitRenameTablePartition(ctx: SparkSqlBaseParser.RenameTablePartitionContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -373,7 +403,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropTablePartitions(ctx: DropTablePartitionsContext): StatementData {
+    override fun visitDropTablePartitions(ctx: SparkSqlBaseParser.DropTablePartitionsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -384,7 +414,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitSetTableLocation(ctx: SetTableLocationContext): StatementData {
+    override fun visitSetTableLocation(ctx: SparkSqlBaseParser.SetTableLocationContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -395,7 +425,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitRecoverPartitions(ctx: RecoverPartitionsContext): StatementData {
+    override fun visitRecoverPartitions(ctx: SparkSqlBaseParser.RecoverPartitionsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -406,7 +436,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropTable(ctx: DropTableContext): StatementData {
+    override fun visitDropTable(ctx: SparkSqlBaseParser.DropTableContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -417,7 +447,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropView(ctx: DropViewContext): StatementData {
+    override fun visitDropView(ctx: SparkSqlBaseParser.DropViewContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -428,7 +458,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateView(ctx: CreateViewContext): StatementData {
+    override fun visitCreateView(ctx: SparkSqlBaseParser.CreateViewContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -439,7 +469,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateTempViewUsing(ctx: CreateTempViewUsingContext): StatementData {
+    override fun visitCreateTempViewUsing(ctx: SparkSqlBaseParser.CreateTempViewUsingContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -450,7 +480,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitAlterViewQuery(ctx: AlterViewQueryContext): StatementData {
+    override fun visitAlterViewQuery(ctx: SparkSqlBaseParser.AlterViewQueryContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -461,7 +491,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitCreateFunction(ctx: CreateFunctionContext): StatementData {
+    override fun visitCreateFunction(ctx: SparkSqlBaseParser.CreateFunctionContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -472,7 +502,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitDropFunction(ctx: DropFunctionContext): StatementData {
+    override fun visitDropFunction(ctx: SparkSqlBaseParser.DropFunctionContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -483,7 +513,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitExplain(ctx: ExplainContext): StatementData {
+    override fun visitExplain(ctx: SparkSqlBaseParser.ExplainContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -494,7 +524,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowTables(ctx: ShowTablesContext): StatementData {
+    override fun visitShowTables(ctx: SparkSqlBaseParser.ShowTablesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -505,7 +535,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowTableExtended(ctx: ShowTableExtendedContext): StatementData {
+    override fun visitShowTableExtended(ctx: SparkSqlBaseParser.ShowTableExtendedContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -516,7 +546,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowTblProperties(ctx: ShowTblPropertiesContext): StatementData {
+    override fun visitShowTblProperties(ctx: SparkSqlBaseParser.ShowTblPropertiesContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -527,7 +557,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowColumns(ctx: ShowColumnsContext): StatementData {
+    override fun visitShowColumns(ctx: SparkSqlBaseParser.ShowColumnsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -538,7 +568,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowViews(ctx: ShowViewsContext): StatementData {
+    override fun visitShowViews(ctx: SparkSqlBaseParser.ShowViewsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -549,7 +579,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowPartitions(ctx: ShowPartitionsContext): StatementData {
+    override fun visitShowPartitions(ctx: SparkSqlBaseParser.ShowPartitionsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -560,7 +590,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowFunctions(ctx: ShowFunctionsContext): StatementData {
+    override fun visitShowFunctions(ctx: SparkSqlBaseParser.ShowFunctionsContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -571,7 +601,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowCreateTable(ctx: ShowCreateTableContext): StatementData {
+    override fun visitShowCreateTable(ctx: SparkSqlBaseParser.ShowCreateTableContext): StatementData {
         return visitChildren(ctx)
     }
 
@@ -582,7 +612,7 @@ class SparkStreamSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
      * The default implementation returns the result of calling
      * [.visitChildren] on `ctx`.
      */
-    override fun visitShowCurrentNamespace(ctx: ShowCurrentNamespaceContext): StatementData {
+    override fun visitShowCurrentNamespace(ctx: SparkSqlBaseParser.ShowCurrentNamespaceContext): StatementData {
         return visitChildren(ctx)
     }
 
