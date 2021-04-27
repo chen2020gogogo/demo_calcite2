@@ -3,10 +3,6 @@ package csl.calcite.com.parser
 import java.io.Serializable
 import java.util.*
 
-/**
- * Created by libinsong on 2017/4/4.
- */
-
 @Target(AnnotationTarget.CLASS)
 annotation class DefaultConstructor
 

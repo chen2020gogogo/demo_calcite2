@@ -1,8 +1,6 @@
 package csl.calcite.com.parser;
 
-/**
- * Created by binsong.li on 2019-08-19 09:42
- */
+
 enum class DbType {
     SPARK_SQL,
     MYSQL,
