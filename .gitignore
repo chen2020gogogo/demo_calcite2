@@ -4,3 +4,5 @@ target/*
 .idea
 .idea/*
 demo_calcite.iml
+.DS_Store
+demo_calcite.iml
