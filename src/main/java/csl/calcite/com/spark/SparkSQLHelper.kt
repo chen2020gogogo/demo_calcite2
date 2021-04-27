@@ -15,10 +15,7 @@ import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.apache.commons.lang3.StringUtils
 import java.lang.IllegalArgumentException
 
-/**
- *
- * Created by libinsong on 2018/1/10.
- */
+
 object SparkSQLHelper {
 
     @JvmStatic fun checkSupportedSQL(statementType: StatementType): Boolean {

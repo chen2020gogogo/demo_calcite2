@@ -1,3 +1,13 @@
+- 符号(Token)名大写开头
+  - ID, LPAREN, RIGHT_CURLY // token names
+- 解析规则(Parser rule)名小写开头,后面可以跟字母、数字、下划线
+  - expr, simpleDeclarator, d2, header_file // rule names
+- rule
+  - 以 “:” 开始， “;” 结束， 多规则以 "|" 分隔
+- 动作
+  - 动作（Actions）实际上是用目标语言写成的、嵌入到规则中的代码（以花括号包裹）。它们通常直接操作输入的标号，但是他们也可以用来调用相应的外部代码。属性，到目前为止我的理解还不多，感觉像是C++中类里面的成员。常用属性或动作说明：
+- @header { package com.zetyun.aiops.antlr.test; }
+  - 这个动作很有用，即在运行脚本后，生成的类中自动带上这个包路径，避免了手动加入的麻烦
 - Parser： 
   - 解析器类。主要用于处理经过 Lexer 处理后的各段。一些具体的操作都在这里
 - Lexer： 

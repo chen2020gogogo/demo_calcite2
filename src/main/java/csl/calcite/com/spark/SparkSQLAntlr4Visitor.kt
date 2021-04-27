@@ -10,10 +10,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.List
 
-/**
- *
- * Created by libinsong on 2018/1/10.
- */
+
 class SparkSQLAntlr4Visitor : SparkSqlBaseBaseVisitor<StatementData>() {
 
     private var currentOptType: StatementType = StatementType.UNKOWN

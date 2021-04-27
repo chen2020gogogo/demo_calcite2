@@ -1,7 +1,14 @@
-package csl.calcite.com.sparkg4;
+// Generated from /Users/shenglongchen/netease_gitlab/demo_calcite2/sparkg4v2/SparkSqlBase.g4 by ANTLR 4.9.1
+ package csl.calcite.com.sparkg4; 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
-
+/**
+ * This interface defines a complete generic visitor for a parse tree produced
+ * by {@link SparkSqlBaseParser}.
+ *
+ * @param <T> The return type of the visit operation. Use {@link Void} for
+ * operations with no return type.
+ */
 public interface SparkSqlBaseVisitor<T> extends ParseTreeVisitor<T> {
 	/**
 	 * Visit a parse tree produced by {@link SparkSqlBaseParser#singleStatement}.

@@ -1,5 +1,5 @@
-// Generated from /Users/shenglongchen/netease_gitlab/demo_calcite2/sparkg4v2/SparkStreamSqlLexer.g4 by ANTLR 4.9.1
- package com.zetyun.aiops.antlr.test; 
+// Generated from /Users/shenglongchen/netease_gitlab/demo_calcite2/sparkg4v2/SparkSqlBase.g4 by ANTLR 4.9.1
+ csl.calcite.com.sparkg4; 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class SparkStreamSqlLexer extends Lexer {
+public class SparkSqlBase extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -117,13 +117,13 @@ public class SparkStreamSqlLexer extends Lexer {
 	}
 
 
-	public SparkStreamSqlLexer(CharStream input) {
+	public SparkSqlBase(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "SparkStreamSqlLexer.g4"; }
+	public String getGrammarFileName() { return "SparkSqlBase.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

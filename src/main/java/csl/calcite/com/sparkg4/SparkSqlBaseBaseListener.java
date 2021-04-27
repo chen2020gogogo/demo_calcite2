@@ -1,4 +1,5 @@
-package csl.calcite.com.sparkg4;
+// Generated from /Users/shenglongchen/netease_gitlab/demo_calcite2/sparkg4v2/SparkSqlBase.g4 by ANTLR 4.9.1
+ package csl.calcite.com.sparkg4; 
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -10,9 +11,17 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * of the available methods.
  */
 public class SparkSqlBaseBaseListener implements SparkSqlBaseListener {
-	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSingleStatement(SparkSqlBaseParser.SingleStatementContext ctx) { }
-	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void exitSingleStatement(SparkSqlBaseParser.SingleStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
